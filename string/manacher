@@ -32,7 +32,7 @@ int manacher(string&s){
 	string ss(2*n+1,'#');
 	for(int i=1,j=0;j<n;j++,i+=2)ss[i]=s[j];
 	n=2*n+1;
-	vector<int>p(2*n+1);
+	vector<int>p(n);
 	int an=0;
 	for(int r=0,c=0,len,i=0;i<n;i++){
 		len=r>i?min(r-i,p[2*c-i]):1;
@@ -47,4 +47,8 @@ int manacher(string&s){
 	return an-1;
 }
 ```
+
+
+
+如果要回推原字符串的最右端，先求出最长回文长度len=p[pos]-1;pos+=len得到加长串的最右端，然后len=len/2-1得到的就是原字符串的最右端
 

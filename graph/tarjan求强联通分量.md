@@ -10,25 +10,25 @@
 
 ```c++
 list<int>graph[N + 1];
-int dsu[N + 1] = { 0 };
+int dfn[N + 1] = { 0 };
 int low[N + 1] = { 0 };
 bool instack[N + 1];
 vector<vector<int>>an;//储存强联通分量
 stack<int>st;
 int cnt = 1;
 void dfs(int u) {
-	dsu[u] = low[u] = cnt++;
+	dfn[u] = low[u] = cnt++;
 	instack[u] = true;
 	for (auto v : graph[u]) {
-		if (dsu[v] == 0) {
+		if (dfn[v] == 0) {
 			dfs(v);
 			low[u] = min(low[u], low[v]);
 		}
 		else if (instack[v]) {
-			low[u] = min(low[u], low[v]);
+			low[u] = min(low[u], dfn[v]);
 		}
 	}
-	if (dsu[u] == low[u]) {
+	if (dfn[u] == low[u]) {
 		vector<int>temp;
 		int x;
 		do {
