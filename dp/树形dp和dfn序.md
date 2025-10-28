@@ -2,7 +2,7 @@
 
 
 
-![image-20250527222520728](C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20250527222520728.png)
+<img src="C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20250527222520728.png" alt="image-20250527222520728" style="zoom: 50%;" />
 
 好题：https://leetcode.cn/problems/binary-tree-cameras/?envType=problem-list-v2&envId=f4LgKPld
 
@@ -12,7 +12,7 @@
 
 # dfn序
 
-![image-20250527222711499](C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20250527222711499.png)
+<img src="C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20250527222711499.png" alt="image-20250527222711499" style="zoom: 67%;" />
 
 
 

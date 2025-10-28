@@ -2,7 +2,7 @@
 
 ![image-20250426104633404](C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20250426104633404.png)
 
-	### 板子
+
 
 ```c++
 
