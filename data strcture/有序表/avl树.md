@@ -74,16 +74,16 @@ struct tree{
 **板子**
 
 ```c++
-template<typename T,typename Compare=less<T>>
+template<typename T, typename Compare = less<T>>
 class avl {
 private:
-	int trcnt=0, head=0;
+	int trcnt = 0, head = 0;
 	Compare comp;
 	struct tree {
-		int l, r, height, cnt, siz;
-		T key;
+		int l=0, r=0, height=0, cnt=0, siz=0;
+		T key{};
 	}*tr;
-	bool equal(const T& x, const T& y) const{
+	bool equal(const T& x, const T& y) const {
 		return !comp(x, y) && !comp(y, x);
 	}
 	void up(int i) {
@@ -136,13 +136,13 @@ private:
 			tr[trcnt].height = 1;
 			return trcnt;
 		}
-		if (equal(key,tr[i].key)) {
+		if (equal(key, tr[i].key)) {
 			tr[i].cnt += cnt;
 			if (tr[i].cnt <= 0) {
 				return this->era(i, key);
 			}
 		}
-		else if (comp(key,tr[i].key)) {
+		else if (comp(key, tr[i].key)) {
 			tr[i].l = insert(tr[i].l, key, cnt);
 		}
 		else {
@@ -153,8 +153,8 @@ private:
 	}
 	int id(int i, const T& key) {
 		if (i == 0)return -1;
-		if (equal(key,tr[i].key))return i;
-		else if (comp(key,tr[i].key))return id(tr[i].l, key);
+		if (equal(key, tr[i].key))return i;
+		else if (comp(key, tr[i].key))return id(tr[i].l, key);
 		else return id(tr[i].r, key);
 	}
 	int era2(int i, int goal) {
@@ -164,7 +164,7 @@ private:
 		return legal(i);
 	}
 	int era(int i, const T& key) {
-		if (equal(tr[i].key,key)) {
+		if (equal(tr[i].key, key)) {
 			if (tr[i].l == 0 && tr[i].r == 0)return 0;
 			else if (tr[i].l == 0)return tr[i].r;
 			else if (tr[i].r == 0)return tr[i].l;
@@ -177,7 +177,7 @@ private:
 				i = cur;
 			}
 		}
-		else if (comp(tr[i].key , key))tr[i].r = era(tr[i].r, key);
+		else if (comp(tr[i].key, key))tr[i].r = era(tr[i].r, key);
 		else tr[i].l = era(tr[i].l, key);
 		up(i);
 		return legal(i);
@@ -192,34 +192,33 @@ private:
 		if (i == 0)return nullopt;
 		if (!comp(tr[i].key, key))return pre(tr[i].l, key);
 		else {
-			optional<T>an = tr[i].key,an2=pre(tr[i].r,key);
+			optional<T>an = tr[i].key, an2 = pre(tr[i].r, key);
 			if (an2 && comp(*an, *an2))swap(an, an2);
 			return an;
 		}
 	}
 	optional<T> nex(int i, const T& key) {
 		if (i == 0)return nullopt;
-		if (!comp(key,tr[i].key))return nex(tr[i].r, key);
+		if (!comp(key, tr[i].key))return nex(tr[i].r, key);
 		else {
 			optional<T>an = tr[i].key, an2 = nex(tr[i].l, key);
 			if (an2 && comp(*an2, *an))swap(an, an2);
 			return an;
 		}
 	}
-	int rank(int i, const T& key) {
+	int less(int i, const T& key) {
 		if (i == 0)return 0;
-		if (comp(tr[i].key,key)) {
-			return tr[tr[i].l].siz + tr[i].cnt + rank(tr[i].r, key);
+		if (comp(tr[i].key, key)) {
+			return tr[tr[i].l].siz + tr[i].cnt + less(tr[i].r, key);
 		}
 		else if (equal(tr[i].key, key)) {
 			return tr[tr[i].l].siz;
 		}
-		else return rank(tr[i].l, key);
+		else return less(tr[i].l, key);
 	}
 public:
-	avl(int N = 1e6,Compare c=Compare()) :trcnt(0), head(0),comp(c) {
-		tr = new tree[N + 1];
-		for (int i = 0; i <= N; i++)tr[i] = { 0,0,0,0,0,0 };
+	avl(int N = 1e6, Compare c = Compare()) :trcnt(0), head(0), comp(c) {
+		tr = new tree[N + 1]();
 	}
 	~avl() {
 		delete[]tr;
@@ -258,7 +257,22 @@ public:
 		return nex(head, key);
 	}
 	int rank(const T& key) {
-		return rank(head, key) + 1;
+		return less(head, key) + 1;
+	}
+	int less_num(const T& key) {
+		return less(head, key);
+	}
+	int less_equal_num(const T& key) {
+		int num = less(head, key);
+		int te = id(head, key);
+		if (te != -1)num += tr[te].cnt;
+		return num;
+	}
+	int greater_num(const T& key) {
+		return tr[head].siz - less_equal_num(key);
+	}
+	int greater_equal_num(const T& key) {
+		return tr[head].siz - less_num(key);
 	}
 };
 ```
